@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d946e6fe4e79a7449825cc2f42db4437, type: 3}
+  m_Name: ScopeRifle
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponSO
+  weaponType: 0
+  maxAmmo: 30
+  ammoCount: 30
+  fireDelay: 0.25
+  weaponSprite: {fileID: -740858904, guid: b7533261acc651f43be949c4cc8db668, type: 3}
+  weaponPrefab: {fileID: 0}
+  projectileDamage: 0
+  projectileType: 0
+  maxRayDistance: Infinity
+  physicalProjectile: {fileID: 0}
