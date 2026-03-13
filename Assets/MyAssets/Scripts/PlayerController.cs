@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -7,17 +8,20 @@ public class PlayerController : MonoBehaviour
     [Header("Initialisation")]
     [SerializeField] float playerMass = 80f;
     [SerializeField] float collisionSweepDistance = 1f;
-    enum CameraMode { FirstPerson, ThirdPerson }
-    [SerializeField] CameraMode cameraMode = CameraMode.FirstPerson;
+
+    public enum MoveMode { FirstPersonMove, ThirdPersonMove }
+    [SerializeField] MoveMode moveMode = MoveMode.FirstPersonMove;
+
     Camera mainCam => Camera.main;
 
     [Header("Movement settings")]
     Vector3 moveDirection;
     [SerializeField] float walkSpeed = 2f;
-    [SerializeField] float runMultiplier = 4;
+    [SerializeField] float sprintMultiplier = 4;
     [SerializeField] float currentSpeed = 0;
     [SerializeField] float jumpMultiplier = 4;
     [SerializeField] int maxJumpCount = 1;
+    Vector3 moveDir;
     bool isMoving = false;
     int jumpCount = 0;
     [Header("Ground and Slope Detection")]
@@ -35,23 +39,23 @@ public class PlayerController : MonoBehaviour
         Initialize();
     }
 
-    void Update()
+    void LateUpdate()
     {
-        UpdateRotation();
+        UpdateRotation(moveDir);
     }
 
-    void UpdateRotation()
+    void UpdateRotation(Vector3 rotateDirection)
     {
-
-        switch (cameraMode)
+        switch (moveMode)
         {
-            case CameraMode.FirstPerson:
-                Vector3 camForward = mainCam.transform.forward;
-                camForward.y = 0;
-                transform.forward = camForward.normalized;
+            case MoveMode.FirstPersonMove:
+                Vector3 camDir = mainCam.transform.forward;
+                camDir.y = 0;
+                transform.forward = camDir.normalized;
                 break;
-            case CameraMode.ThirdPerson:
-                if (isMoving) transform.forward = moveDirection.normalized;
+            case MoveMode.ThirdPersonMove:
+                if (isMoving)
+                    transform.forward = rotateDirection.normalized;
                 break;
         }
     }
@@ -79,7 +83,7 @@ public class PlayerController : MonoBehaviour
             if (slopeAngle <= maxSlopeAngle)
             {
                 //Copy onze movedirection naar moveDir
-                Vector3 moveDir = CalculateMoveDirection();
+                moveDir = CalculateMoveDirection();
                 //We projecteren deze zodat hij
                 //parallel loopt met de slope waar we op zitten. Zo behouden we onze velocity.
                 moveDir = Vector3.ProjectOnPlane(moveDir, hit.normal);
@@ -112,10 +116,13 @@ public class PlayerController : MonoBehaviour
         rb.mass = playerMass;
         currentSpeed = walkSpeed;
         isJump = false;
+        isSprinting = false;
     }
 
     Vector3 CalculateMoveDirection()
     {
+        currentSpeed = isSprinting ? walkSpeed * sprintMultiplier : walkSpeed;
+
         moveDirection = TransformToCameraSpace(new Vector3(moveInput.x, 0, moveInput.y));
         Vector3 newDirection = moveDirection * currentSpeed;
         //  newDirection.y = rb.linearVelocity.y;
@@ -123,14 +130,20 @@ public class PlayerController : MonoBehaviour
         return newDirection;
     }
 
-    Vector3 TransformToCameraSpace(Vector3 input)
+    Vector3 TransformToCameraSpace(Vector3 inputVector)
     {
         Vector3 camX, camZ;
-        camX = mainCam.transform.right * input.x;
-        camZ = mainCam.transform.forward * input.z;
+        camX = mainCam.transform.right * inputVector.x;
+        camZ = mainCam.transform.forward * inputVector.z;
         Vector3 finalDirection = camX + camZ;
         finalDirection.y = 0;
         return finalDirection;
+    }
+
+
+    public void SetMoveMode(MoveMode setMode)
+    {
+        moveMode = setMode;
     }
 
     /// <summary>
@@ -188,7 +201,13 @@ public class PlayerController : MonoBehaviour
         isMoving = moveInput.x != 0 || moveInput.y != 0;
 
     }
+    bool isSprinting = false;
+    public void OnSprint(InputValue context)
+    {
+        isSprinting = !isSprinting;
+        print("Sprint pressed");
 
+    }
 
     public void OnJump(InputValue context)
     {
