@@ -14,11 +14,14 @@ public class FakeInventory : MonoBehaviour
     [Header("UI Reference")]
     [SerializeField] UIDataExample uIDataExample;
 
+    WeaponController getWeaponController => GetComponent<WeaponController>();
+
     void Start()
     {
         index = 0;
         selectedWeapon = weaponSO[index];
         uIDataExample.OnInitializeSO(selectedWeapon);
+        getWeaponController.UpdateWeapon(selectedWeapon.weaponPrefab);
     }
 
     //Haal onze scroll richting op.

@@ -18,7 +18,9 @@ public class PlayerController : MonoBehaviour
     Vector3 moveDirection;
     [SerializeField] float walkSpeed = 2f;
     [SerializeField] float sprintMultiplier = 4;
-    [SerializeField] float currentSpeed = 0;
+    public float currentSpeed { get; private set; }//{ get; private set; } zorgt ervoor dat onze public variable 
+    //read only is. Dit omdat ze specifiek vermelden dat de "set" private is.
+    //Zo voorkomen we dat externe code deze waarde per ongeluk overschrijft.
     [SerializeField] float jumpMultiplier = 4;
     [SerializeField] int maxJumpCount = 1;
     Vector3 moveDir;
@@ -114,7 +116,7 @@ public class PlayerController : MonoBehaviour
     void Initialize()
     {
         rb.mass = playerMass;
-        currentSpeed = walkSpeed;
+        currentSpeed = 0f;
         isJump = false;
         isSprinting = false;
     }
@@ -122,6 +124,7 @@ public class PlayerController : MonoBehaviour
     Vector3 CalculateMoveDirection()
     {
         currentSpeed = isSprinting ? walkSpeed * sprintMultiplier : walkSpeed;
+        currentSpeed = isMoving ? currentSpeed : 0f;
 
         moveDirection = TransformToCameraSpace(new Vector3(moveInput.x, 0, moveInput.y));
         Vector3 newDirection = moveDirection * currentSpeed;
