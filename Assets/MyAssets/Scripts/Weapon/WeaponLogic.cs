@@ -35,7 +35,9 @@ public class WeaponLogic : MonoBehaviour
     {
         //implement super coole projectile code later. Die werkt!
         GameObject projectileClone = Instantiate(projectile, projectileOrigin.position, projectileOrigin.rotation);
-        projectileClone.GetComponent<ProjectileMovement>().SetVelocity(weaponInfo.projectileVelocity);
+        //met projectileClone?.Getcomponent kunnen we kijken of de component null returned. Zo ja skip de lijn.
+        projectileClone?.GetComponent<ProjectileMovement>().SetVelocity(weaponInfo.projectileVelocity);
+        projectileClone?.GetComponent<ProjectileDamage>().SetWeaponInfo(weaponInfo);
         print("Coole projectile goes pfeeeeeew");
     }
 
@@ -46,6 +48,8 @@ public class WeaponLogic : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, distance, hitLayers))
         {
+            if (hit.collider.GetComponent<IDamagable>() == null) return;
+            hit.collider.GetComponent<IDamagable>().DoDamage(weaponInfo.projectileDamage);
             Debug.DrawRay(projectileOrigin.position, projectileOrigin.forward * 1000f, Color.red, 3f);
             print(hit.collider.name);
         }

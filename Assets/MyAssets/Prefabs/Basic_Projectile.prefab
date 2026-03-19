@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 389908026899448711}
   - component: {fileID: 192445450085957750}
   - component: {fileID: 4480783225390898406}
+  - component: {fileID: -32498619075730357}
   m_Layer: 0
   m_Name: Basic_Projectile
   m_TagString: Untagged
@@ -110,6 +111,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 156988617066f424d80c1a2f8b7e5e36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::RemoveProjectile
+--- !u!114 &-32498619075730357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3371865961409576187}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e78245190f5dd04db9c3548e4fff829, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ProjectileDamage
 --- !u!1 &5763560950150351910
 GameObject:
   m_ObjectHideFlags: 0
