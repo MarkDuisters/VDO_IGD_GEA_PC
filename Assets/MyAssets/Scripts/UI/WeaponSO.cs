@@ -1,4 +1,6 @@
+using System;
 using UnityEngine;
+
 
 [CreateAssetMenu(fileName = "WeaponObject", menuName = "Inventory/create new Weapon")]
 public class WeaponSO : ScriptableObject
@@ -14,8 +16,7 @@ public class WeaponSO : ScriptableObject
 
     [Header("Weapon graphics and object")]
     public Sprite weaponSprite;
-    public GameObject weaponPrefab;
-    
+
     [Header("Projectile settings")]
     public int projectileDamage;
     public enum ProjectileType { Raycast, PhysicalProjectile }

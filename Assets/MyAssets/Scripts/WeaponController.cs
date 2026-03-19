@@ -4,11 +4,12 @@ public class WeaponController : MonoBehaviour
 {
     [SerializeField] GameObject weaponObject;
     [SerializeField] WeaponAnimationController getWeaponController;
-    [SerializeField] PlayerController getPlayerController;
+    PlayerController getPlayerController => GetComponent<PlayerController>();
 
-    void Start()
+
+    void LateUpdate()
     {
-        InitializeWeapon();
+        getWeaponController.SetMoveSpeed(getPlayerController.currentSpeed);
     }
 
     public void UpdateWeapon(GameObject weapon)
@@ -41,8 +42,8 @@ public class WeaponController : MonoBehaviour
         getWeaponController.FireWeapon(1);//1=true
     }
 
-    public void OnMove(InputValue context)
+    /*public void OnMove(InputValue context)
     {
         getWeaponController.SetMoveSpeed(getPlayerController.currentSpeed);
-    }
+    }*/
 }

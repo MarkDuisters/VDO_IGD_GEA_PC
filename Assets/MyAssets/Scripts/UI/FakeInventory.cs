@@ -1,32 +1,35 @@
 using System;
 using Unity.VisualScripting;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class FakeInventory : MonoBehaviour
 {
-    // [SerializeField] WeaponUI[] weapon;
-    //  WeaponUIStruct[] weaponUIStructs;
-    [SerializeField] WeaponSO[] weaponSO;
-    [SerializeField] WeaponSO selectedWeapon;
+
+    [Header("Invenotry")]
+    [SerializeField] WeaponItem[] weapons;
+    [SerializeField] WeaponItem selectedWeapon;
     [SerializeField] int index;
 
     [Header("UI Reference")]
     [SerializeField] UIDataExample uIDataExample;
 
     WeaponController getWeaponController => GetComponent<WeaponController>();
+    bool initalized = false;
 
     void Start()
     {
         index = 0;
-        selectedWeapon = weaponSO[index];
-        uIDataExample.OnInitializeSO(selectedWeapon);
-        getWeaponController.UpdateWeapon(selectedWeapon.weaponPrefab);
+        selectedWeapon = weapons[index];
+        InitializeInventoryItems();//Initialize altijd eerst anders kunnen de regels hier onder niet bij hun data.
+        initalized = true;
     }
 
     //Haal onze scroll richting op.
     void OnScrollWheel(InputValue value)
     {
+        if (!initalized) return;
         //haal onze scrollrichting op en pas deze toe op onze index. 
         //Scrollen naar boven telt de index op, scrollen naar beneden trekt de index af.
         float scrollDirection = value.Get<float>();
@@ -35,15 +38,40 @@ public class FakeInventory : MonoBehaviour
         //via een modulo zorgen we dat we niet out of bounds gaan van onze lijst. 
         //Wanneer we boven het maximum komen, gaan we terug naar 0. 
         // Wanneer we onder 0 komen, gaan we naar het maximum via onze ? operator. 
-        index = index % weaponSO.Length;
-        index = index < 0 ? weaponSO.Length - 1 : index;
+        index = index % weapons.Length;
+        index = index < 0 ? weapons.Length - 1 : index;
 
         //Als we tenslot onze index weten geven we de referentie van onze lijst door aan selectedWeapon.
         // Vervolgens kunnen we deze referentie gebruiken om onze UI te updaten.
-        selectedWeapon = weaponSO[index];
-        uIDataExample.OnInitializeSO(selectedWeapon);
+        selectedWeapon = weapons[index];
+        InitializeInventoryItems();
     }
 
+    //Zet onze selected item aan en alle rest uit.
+    void InitializeInventoryItems()
+    {
+        selectedWeapon.weaponGameObject.SetActive(true);
+        print(selectedWeapon.weaponGameObject.name);
+        /*
+          int childcount = inventoryObject.childCount;
+          for (int i = 0; i < childcount; i++)
+          {
+              print(children[i].name);
+          }*/
+
+        foreach (WeaponItem weaponItem in weapons)
+        {
+            if (weaponItem == selectedWeapon)
+            {
+                print("Parent or selected weapon:" + weaponItem.weaponGameObject.name);
+                continue;
+            }
+            print("Disabled child: " + weaponItem.weaponGameObject.name);
+            weaponItem.weaponGameObject.SetActive(false);
+        }
+        uIDataExample.OnInitializeSO(selectedWeapon.weaponInfo);
+        getWeaponController.UpdateWeapon(selectedWeapon.weaponGameObject);
+    }
 }
 
 #region class & struct
@@ -68,5 +96,15 @@ public struct WeaponUIStruct //struct is een value type. Wanneer we nieuwe varia
     public int ammoCount;
     public Sprite weaponSprite;
     public float fireDelay;
+}
+#endregion
+
+
+#region ScriptObject + GameObject wrapper
+[Serializable]
+public class WeaponItem
+{
+    public WeaponSO weaponInfo;
+    public GameObject weaponGameObject;
 }
 #endregion

@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float jumpMultiplier = 4;
     [SerializeField] int maxJumpCount = 1;
     Vector3 moveDir;
-    bool isMoving = false;
+    public bool isMoving { get; private set; }
     int jumpCount = 0;
     [Header("Ground and Slope Detection")]
     [SerializeField] LayerMask groundMask;
@@ -72,6 +72,10 @@ public class PlayerController : MonoBehaviour
 
     void Movement()
     {
+
+        currentSpeed = isSprinting ? walkSpeed * sprintMultiplier : walkSpeed;
+        currentSpeed = isMoving ? currentSpeed : 0f;
+
         Vector3 velocity = rb.linearVelocity;
         RaycastHit hit;
         isGrounded = GroundDetection(out hit);
@@ -123,8 +127,8 @@ public class PlayerController : MonoBehaviour
 
     Vector3 CalculateMoveDirection()
     {
-        currentSpeed = isSprinting ? walkSpeed * sprintMultiplier : walkSpeed;
-        currentSpeed = isMoving ? currentSpeed : 0f;
+        // currentSpeed = isSprinting ? walkSpeed * sprintMultiplier : walkSpeed;
+        // currentSpeed = isMoving ? currentSpeed : 0f;
 
         moveDirection = TransformToCameraSpace(new Vector3(moveInput.x, 0, moveInput.y));
         Vector3 newDirection = moveDirection * currentSpeed;

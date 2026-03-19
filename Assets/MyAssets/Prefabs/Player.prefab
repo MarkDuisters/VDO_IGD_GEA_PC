@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4425164607301387047}
   - component: {fileID: 3826820645908941637}
   - component: {fileID: 6172209234051824561}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player_Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 2132520279900846167}
   - component: {fileID: 8441497477000043306}
   - component: {fileID: 2660168063852873928}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 5342217392660906926}
   - component: {fileID: 6208942082626389594}
   - component: {fileID: 5902890918602595171}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -285,7 +285,7 @@ GameObject:
   - component: {fileID: 2415135550596082062}
   - component: {fileID: 2083648017308475518}
   - component: {fileID: 530874696715136197}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Player_Nose
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -373,7 +373,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4256404977087416640}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: '[[GFX]]'
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,7 +409,11 @@ GameObject:
   - component: {fileID: 3535094692788533693}
   - component: {fileID: 8192619346442923562}
   - component: {fileID: 7823130047699685866}
-  m_Layer: 0
+  - component: {fileID: 1387717424506156588}
+  - component: {fileID: 9214545149217408099}
+  - component: {fileID: 1434969306512597756}
+  - component: {fileID: 4089275166384576894}
+  m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 5721338939258241955, guid: 0000000000000000d000000000000000, type: 0}
@@ -479,7 +483,7 @@ Rigidbody:
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
-  m_Interpolate: 1
+  m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 3
 --- !u!114 &8192619346442923562
@@ -526,15 +530,86 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   playerMass: 80
   collisionSweepDistance: 1
+  moveMode: 0
   walkSpeed: 4
-  runMultiplier: 8
-  currentSpeed: 0
+  sprintMultiplier: 2
   jumpMultiplier: 0.8
   maxJumpCount: 2
   groundMask:
     serializedVersion: 2
     m_Bits: 8
   maxSlopeAngle: 45
+  stepHeight: 200
+--- !u!114 &1387717424506156588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845970113566567755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17c67e14dbbc27c498f8fa782e924637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FPSCamRotation
+  cameraRef: {fileID: 0}
+  mouseSensitivity: 10
+  lookLimits: {x: -84, y: 84}
+--- !u!114 &9214545149217408099
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845970113566567755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01ab2697c767c3d498db8b28f8a364eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ToggleCameraMode
+  currentCameraMode: 1
+  firstPersonObjects:
+  - {fileID: 0}
+  thirdPersonObjects:
+  - {fileID: 0}
+--- !u!114 &1434969306512597756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845970113566567755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 738f46a5adb8d9b4e9ee54ba8c2037a8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::FakeInventory
+  weapons:
+  - weaponInfo: {fileID: 11400000, guid: b214b55d83675c4418e640dfa832cd96, type: 2}
+    weaponGameObject: {fileID: 0}
+  - weaponInfo: {fileID: 11400000, guid: 0b10601a46caac04a98696576bcf9f9d, type: 2}
+    weaponGameObject: {fileID: 0}
+  - weaponInfo: {fileID: 11400000, guid: 93528458f07efcd41bd35560c892e655, type: 2}
+    weaponGameObject: {fileID: 0}
+  selectedWeapon:
+    weaponInfo: {fileID: 0}
+    weaponGameObject: {fileID: 0}
+  index: 0
+  uIDataExample: {fileID: 0}
+--- !u!114 &4089275166384576894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8845970113566567755}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 636a21019dc748540af341a271f1ab39, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponController
+  weaponObject: {fileID: 0}
+  getWeaponController: {fileID: 0}
 --- !u!1 &9059182601683353135
 GameObject:
   m_ObjectHideFlags: 0
@@ -546,7 +621,7 @@ GameObject:
   - component: {fileID: 3106570511143531432}
   - component: {fileID: 1341268393299361093}
   - component: {fileID: 2219071567967218967}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cylinder (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
