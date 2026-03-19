@@ -70,7 +70,7 @@ public class FakeInventory : MonoBehaviour
             weaponItem.weaponGameObject.SetActive(false);
         }
         uIDataExample.OnInitializeSO(selectedWeapon.weaponInfo);
-        getWeaponController.UpdateWeapon(selectedWeapon.weaponGameObject);
+        getWeaponController.UpdateWeapon(selectedWeapon);
     }
 }
 

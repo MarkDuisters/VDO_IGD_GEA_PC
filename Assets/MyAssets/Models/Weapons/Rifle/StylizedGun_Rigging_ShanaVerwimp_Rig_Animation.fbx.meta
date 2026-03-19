@@ -65,10 +65,17 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
+      - time: 0.045238096
+        functionName: FireBullet
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.749577
         functionName: FireWeapon
         data: 
-        objectReferenceParameter: {fileID: 11500000, guid: f43bbff04c2309946b437d7e290d4ea4, type: 3}
+        objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

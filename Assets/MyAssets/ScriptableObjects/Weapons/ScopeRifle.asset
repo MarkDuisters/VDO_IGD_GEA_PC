@@ -15,10 +15,14 @@ MonoBehaviour:
   weaponType: 0
   maxAmmo: 30
   ammoCount: 30
+  ammoCost: 0
   fireDelay: 0.25
   weaponSprite: {fileID: -740858904, guid: b7533261acc651f43be949c4cc8db668, type: 3}
-  weaponPrefab: {fileID: 0}
+  projectileType: 1
   projectileDamage: 0
-  projectileType: 0
+  hitLayers:
+    serializedVersion: 2
+    m_Bits: 0
   maxRayDistance: Infinity
-  physicalProjectile: {fileID: 0}
+  physicalProjectile: {fileID: 3371865961409576187, guid: 049219401647132458950a94de35a1b8, type: 3}
+  projectileVelocity: 500
