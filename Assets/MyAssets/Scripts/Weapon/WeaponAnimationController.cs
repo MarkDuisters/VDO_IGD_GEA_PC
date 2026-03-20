@@ -43,6 +43,14 @@ public class WeaponAnimationController : MonoBehaviour
     {
         return animator.GetBool("_fire");
     }
+    public void SetJumpState(bool state)
+    {
+        animator.SetBool("_isGrounded", state);
+    }
+    public void SetJumpDirection(float value)
+    {
+        animator.SetFloat("_jumpDirection", value); ;
+    }
 
     bool IntBasedBool(int _value)
     {

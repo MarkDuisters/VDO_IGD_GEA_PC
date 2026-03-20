@@ -17,6 +17,7 @@ MonoBehaviour:
   ammoCount: 30
   ammoCost: 0
   fireDelay: 0.25
+  pickedUp: 1
   weaponSprite: {fileID: -740858904, guid: b7533261acc651f43be949c4cc8db668, type: 3}
   projectileType: 0
   projectileDamage: 0

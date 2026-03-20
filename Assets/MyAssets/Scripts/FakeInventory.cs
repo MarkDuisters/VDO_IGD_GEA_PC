@@ -16,7 +16,16 @@ public class FakeInventory : MonoBehaviour
     [SerializeField] UIDataExample uIDataExample;
 
     WeaponController getWeaponController => GetComponent<WeaponController>();
+    PlayerController getPlayerController => GetComponent<PlayerController>();
     bool initalized = false;
+
+    static public FakeInventory instance;
+
+    void Awake()
+    {
+        if (instance != null) Destroy(this);
+        else instance = this;
+    }
 
     void Start()
     {
@@ -50,28 +59,42 @@ public class FakeInventory : MonoBehaviour
     //Zet onze selected item aan en alle rest uit.
     void InitializeInventoryItems()
     {
-        selectedWeapon.weaponGameObject.SetActive(true);
+        selectedWeapon.weaponGameObject.SetActive(false);
         print(selectedWeapon.weaponGameObject.name);
-        /*
-          int childcount = inventoryObject.childCount;
-          for (int i = 0; i < childcount; i++)
-          {
-              print(children[i].name);
-          }*/
 
         foreach (WeaponItem weaponItem in weapons)
         {
             if (weaponItem == selectedWeapon)
             {
-                print("Parent or selected weapon:" + weaponItem.weaponGameObject.name);
-                continue;
+                if (selectedWeapon.weaponInfo.pickedUp)
+                {
+                    weaponItem.weaponGameObject.SetActive(true);
+                    continue;
+                }
             }
-            print("Disabled child: " + weaponItem.weaponGameObject.name);
             weaponItem.weaponGameObject.SetActive(false);
         }
         uIDataExample.OnInitializeSO(selectedWeapon.weaponInfo);
         getWeaponController.UpdateWeapon(selectedWeapon);
+        getPlayerController.UpdateWeapon(selectedWeapon);
     }
+    public void PickUpItem(WeaponSO item)
+    {
+        int _index = 0;
+        foreach (WeaponItem weaponItem in weapons)
+        {
+            if (weaponItem.weaponInfo == item)
+            {
+                weaponItem.weaponInfo.pickedUp = true;
+                selectedWeapon = weaponItem;
+                index = _index;
+                break;
+            }
+            _index++;
+        }
+        InitializeInventoryItems();
+    }
+
 }
 
 #region class & struct

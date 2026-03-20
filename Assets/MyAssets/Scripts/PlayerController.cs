@@ -36,6 +36,12 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody rb => GetComponent<Rigidbody>();
 
+    [Header("Weapon item reference")]
+    [SerializeField] WeaponItem weaponItem;
+    [SerializeField] WeaponAnimationController getWeaponAnimationController;
+
+
+
     void Start()
     {
         Initialize();
@@ -68,6 +74,15 @@ public class PlayerController : MonoBehaviour
         //En we zijn ook niet bezig met een rigidbody waarde voor de rotatie.
         Movement();
         Jump();
+        UpdateJumpAnimationState();
+
+    }
+
+
+    public void UpdateWeapon(WeaponItem weapon)
+    {
+        weaponItem = weapon;
+        getWeaponAnimationController = weaponItem.weaponGameObject.GetComponent<WeaponAnimationController>();
     }
 
     void Movement()
@@ -109,11 +124,17 @@ public class PlayerController : MonoBehaviour
     void Jump()
     {
         //Spring enkel als we een ground valid collider raken en we nog niet het max aantal jumps hebben bereikt.
+
         if (isJump && jumpCount < maxJumpCount)
         {
             rb.AddForce(Vector3.up * jumpMultiplier, ForceMode.VelocityChange);
             jumpCount++;
         }
+    }
+    void UpdateJumpAnimationState()
+    {
+        getWeaponAnimationController.SetJumpState(isGrounded);
+        getWeaponAnimationController.SetJumpDirection(rb.linearVelocity.y);
 
     }
 
